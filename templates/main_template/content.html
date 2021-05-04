@@ -1,0 +1,48 @@
+{% extends 'main_template/main_template.html' %}
+{% block content %}
+
+    {% load i18n %}
+    {% if channel == 'apple' %}
+    <div id="header" style="background-color: #ff773e; height:133px">
+                
+        <div id="" style="position:relative; top:66px; width: 100%; color : #ffffff; text-align:center; font-size:32px;">			
+            <b>{{ title }}</b>
+        </div>
+        
+    </div>
+    <div style="position:relative; width:100%; height:133px"></div>
+    {% else %}
+    <div id="header" style="background-color: #ff773e; height:89px">
+                
+        <div id="" style="position:relative; top:20px; width: 100%; color : #ffffff; text-align:center; font-size:32px;">			
+            <b>{{ title }}</b>
+        </div>
+        
+    </div>
+    <div style="position:relative; width:100%; height:89px"></div>
+    {% endif %}
+    
+
+    <div style="position: relative; top:0px;">
+
+        <div style="position: relative; top:0px; width:100%;">
+            <div style="position: relative; margin-top:23px; padding-left:27px; color:#000000; font-size: 26px;">{{maindata.title}}</div>
+            <div style="position: relative; margin-top:5px; padding-bottom:15px; padding-left:27px; color:#909090; font-size: 20px;">{{maindata.created_time}}</div>
+        </div>
+        <div style="position: relative; top:0px; width:100%; height:1px; background-color: #a6a6a6;"></div>
+        <div style="position: relative; top:20px; width:100%; padding-left: 28px; width:520px; color:#2e2e2e; font-size: 24.5px; line-height: 44px;" id="content_area">
+            {{maindata.content}}
+        </div>
+        <div style="position: relative; top:40px; width:100%; padding-left: 28px; width:550px; color:#2e2e2e; font-size: 24.5px; line-height: 44px;">
+            점검시간<br>
+            {{maindata.start_time}} ~ {{maindata.end_time}}
+        </div>
+        <input type="hidden" id="contetn_text" value="{{maindata.content}}"/>
+    </div>
+
+
+    <script>
+        $('#content_area').html($('#contetn_text').val())
+    </script>
+
+{% endblock %}

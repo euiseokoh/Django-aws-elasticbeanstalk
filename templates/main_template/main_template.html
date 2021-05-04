@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+{% load i18n %}
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>서버 점검 페이지 테스트</title>
+
+<style>
+@charset "EUC-KR";
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+
+div { white-space:nowrap;}
+
+
+
+
+* {
+	margin:0;
+	padding:0;
+	font-family: 'Noto Sans KR', sans-serif;
+
+}
+#wrap {
+	width: 100%;
+	margin: 0 auto;
+	min-width: 640px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+
+}
+a {
+	text-decoration: none;
+	color: black;
+}
+
+#center {
+	/* 포지션 relative로 안쪽 텍스트만 움직이도록 함 */
+	position: relative;
+	width: 640px;
+	min-width: 640px;
+	margin: 0 auto;
+	z-index: 1;
+	background-color: #ffffff;
+
+
+}
+/*--------------------------------  센터  -------------------------------- */
+#header {
+
+	z-index: 990;
+	width: 640px;
+	min-width: 640px;
+	height:89px;
+    position:fixed;
+	background-color: #ffffff;
+	top:0px;
+	transform: translate3d(0,0,0);
+	-webkit-transform: translate3d(0,0,0);
+    padding-top: env(safe-area-inset-top);
+}
+
+#footer {
+
+	z-index: 990;
+	width: 640px;
+	min-width: 640px;
+	height:102px;
+	position:fixed;
+	background-color: #ffffff;
+	bottom:0px;
+	text-align:center;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+
+/*--------------------------------  백그라운드 -------------------------------- */
+#bg {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: -10;
+	width:100%;
+
+}
+
+
+img{
+	border:0px;
+}
+
+input{
+	border:none transparent;
+    
+}
+
+input:focus {
+  border:none transparent;
+}
+
+
+ul, li {list-style-type:none;margin:0;padding:0;}
+.tabs > li { width: 20%; }
+.tabs > li > a { color: #666; padding: 22px 0 20px 0; display: block; background: #fff; text-align: center; text-decoration: none; font-size: 15px; line-height: 20px; border-bottom: 2px solid transparent; -webkit-transition: all .2s ease-in-out; transition: all .2s ease-in-out; }
+.tabs > li.active > a { border-bottom: 2px solid #cc0066; color: #cc0066; }
+
+.mywhitespace { position:relative; top:0px; width:100%; height:20px; background-color:#e2e2e2; }
+
+</style>
+
+<script>
+    //console.log(<?=$prevUrl;?>);
+</script>
+
+<script src="https://code.jquery.com/jquery-1.7.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="https://idangero.us/swiper/dist/js/swiper.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/swiper/swiper.css" type="text/css">
+
+</head>
+
+<!-- 드래그 금지 -->
+<body>
+
+    <div id="wrap">
+	<!--center 입니다. -->
+
+		<div id="center">
+            <style>
+                div { white-space:normal; }
+            </style>	
+
+            {% block content %}
+            {% endblock %}
+
+            <!-- Footer -->
+            
+        </div>
+            <input type = 'hidden' id='channel' value='{{channel}}'/>
+    </div>
+        
+        <script>
+
+            $(document).ready(function() {
+                
+                console.log(getLanguage())
+
+                $("body").append("<a class='' style='display:block' href='javascript:history.back()'><img src='/static/img/main_template/backbt.png' style='width:72px; height:62px; position:fixed; z-index:9999; bottom:120px; left:14px;'></a>");
+
+            });
+
+            function selcettab(tabid) {
+
+                sessionStorage.setItem('tab_id', tabid);
+
+                location.href = pageurl[tabid-1];
+
+            }
+
+            function setCookie(cookieName, value, exdays){
+
+                var exdate = new Date();
+
+                exdate.setDate(exdate.getDate() + exdays);
+
+                var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+
+                document.cookie = cookieName + "=" + cookieValue + "; path=/";
+
+            }
+
+
+
+            function deleteCookie(cookieName){
+
+                var expireDate = new Date();
+
+                expireDate.setDate(expireDate.getDate() - 1);
+
+                document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+
+            }
+
+            function getCookie(cookieName) {
+
+                cookieName = cookieName + '=';
+
+                var cookieData = document.cookie;
+
+                var start = cookieData.indexOf(cookieName);
+
+                var cookieValue = '';
+
+                if(start != -1){
+
+                    start += cookieName.length;
+
+                    var end = cookieData.indexOf(';', start);
+
+                    if(end == -1)end = cookieData.length;
+
+                    cookieValue = cookieData.substring(start, end);
+
+                }
+
+                return unescape(cookieValue);
+
+            }
+
+            function getLanguage() {
+                return navigator.language || navigator.userLanguage;
+            }
+        </script> 
+    </body>
+</html>
